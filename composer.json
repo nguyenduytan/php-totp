@@ -1,0 +1,21 @@
+{
+    "name": "nguyenduytan/php-totp",
+    "description": "Lightweight single-file TOTP library (RFC 6238) compatible with Google Authenticator. Zero dependencies.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["totp", "otp", "2fa", "two-factor", "google-authenticator", "rfc6238", "qr-code"],
+    "homepage": "https://nguyenduytan.com",
+    "authors": [
+        {
+            "name": "Tony Nguyễn",
+            "homepage": "https://nguyenduytan.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "classmap": ["GoogleAuthenticator.php"]
+    }
+}
