@@ -1,0 +1,64 @@
+name: PHP
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+
+    name: PHP ${{ matrix.php }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Lint
+        run: php -l GoogleAuthenticator.php
+
+      - name: Smoke tests
+        run: |
+          php -r '
+            require "GoogleAuthenticator.php";
+            $ga = new GoogleAuthenticator();
+
+            // Secret generation
+            $s = $ga->generateSecretKey();
+            if (strlen($s) !== 32) { throw new Exception("secret length"); }
+            if (!$ga->isValidSecret($s)) { throw new Exception("invalid secret"); }
+
+            // Round-trip verify
+            $code = $ga->getCodeAt($s);
+            if (!$ga->verifyCode($s, $code)) { throw new Exception("verify failed"); }
+
+            // Reject garbage
+            if ($ga->verifyCode($s, "abcdef")) { throw new Exception("garbage accepted"); }
+            if ($ga->verifyCode($s, "12345")) { throw new Exception("short accepted"); }
+            if ($ga->verifyCode("INVALID!", "123456")) { throw new Exception("bad secret"); }
+
+            // Replay-protection helper
+            $slice = $ga->verifyCodeAndGetTimeSlice($s, $code);
+            if (!is_int($slice)) { throw new Exception("no slice"); }
+
+            // QR URLs
+            $urls = $ga->getQRCodeUrls("user@x", $s);
+            if (count($urls) !== 4) { throw new Exception("qr fallbacks"); }
+
+            // Recovery codes
+            $rc = $ga->generateRecoveryCodes(4);
+            if (count($rc) !== 4) { throw new Exception("recovery count"); }
+
+            echo "All checks passed on PHP " . PHP_VERSION . PHP_EOL;
+          '
