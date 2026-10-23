@@ -1,0 +1,18 @@
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+*.log
+.phpunit.result.cache
+
+# Local env
+.env
+.env.local
