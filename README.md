@@ -3,6 +3,8 @@
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D7.1-777bb4?logo=php&logoColor=white)](https://www.php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RFC 6238](https://img.shields.io/badge/RFC-6238-blue.svg)](https://datatracker.ietf.org/doc/html/rfc6238)
+[![Latest Version](https://img.shields.io/packagist/v/nguyenduytan/php-totp.svg)](https://packagist.org/packages/nguyenduytan/php-totp)
+[![Total Downloads](https://img.shields.io/packagist/dt/nguyenduytan/php-totp.svg)](https://packagist.org/packages/nguyenduytan/php-totp)
 
 > Thư viện TOTP siêu nhẹ, **chỉ 1 file PHP duy nhất**, không dependency.  
 > Tương thích hoàn toàn với Google Authenticator, Authy, Microsoft Authenticator, 1Password, Bitwarden.
